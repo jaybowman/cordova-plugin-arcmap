@@ -1,0 +1,27 @@
+{
+  "name": "cordova-plugin-arcmap",
+  "version": "0.0.1",
+  "description": "Cordova plugin for arcgis map navigation", 
+  "cordova": {
+    "id": "cordova-plugin-arcmap",
+    "platforms": [
+      "android",
+      "ios"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jaybowman/cordova-plugin-arcmap.git"
+  },
+  "keywords": [
+    "ecosystem:cordova",
+    "cordova-android",
+    "cordova-ios"
+  ],
+  "author": "Jay Bowman",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jaybowman/cordova-plugin-arcmap/issues"
+  },
+  "homepage": "https://github.com/jaybowman/cordova-plugin-arcmap#readme"
+}

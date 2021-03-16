@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='utf-8'?>
+<plugin
+    xmlns="http://apache.org/cordova/ns/plugins/1.0" 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+     id="cordova-plugin-arcmap" 
+    version="0.0.1" >
+
+    <name>MapLauncher</name>    
+    <description>
+        Cordova plugin for ArcGIS native map navigation.
+    </description>
+    <author>Jay Bowman</author>
+	<license>MIT</license>
+
+	<engines>
+		<engine name="cordova" version=">=6.0.0" />
+        <engine name="cordova-android" version=">=9.0.0" />
+        <engine name="cordova-ios" version="=5.1.1" />
+	</engines>
+
+    <js-module name="Launcher" src="www/Launcher.js">
+        <clobbers target="plugins.launcher" />
+    </js-module>
+    
+    <platform name="android">
+        <hook type="after_prepare" src="scripts/apply-to-gradle.properties.js" />
+        <hook type="after_plugin_install" src="scripts/android/after_plugin_install.js" />
+		<hook type="before_plugin_uninstall" src="scripts/android/before_plugin_uninstall.js" />
+        <config-file parent="/*" target="res/xml/config.xml">
+            <feature name="Launcher">
+                <param name="android-package" value="com.thevillages.cordova.plugin.arcmap.Launcher" />
+        </feature>
+        </config-file>
+        <config-file target="AndroidManifest.xml" parent="/*">
+            <uses-permission android:name="android.permission.INTERNET" />
+            <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+            <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+            <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
+        </config-file>
+        <source-file src="src/android/Launcher.java" target-dir="src/com/thevillages/cordova/plugin/arcmap" />
+        <source-file src="src/android/ParseTypes.java" target-dir="src/com/thevillages/cordova/plugin/arcmap" />
+        <framework src='com.esri.arcgisruntime:arcgis-android:100.10.0' />
+    	<framework src='androidx.appcompat:appcompat:1.2.0' />
+    	<framework src='androidx.constraintlayout:constraintlayout:2.0.2'/>
+    	<framework src='info.androidhive:fontawesome:0.0.5'/>
+    	<framework src='com.google.android.material:material:1.2.1'/>
+        <framework src='src/android/build-extras.gradle' custom="true" type="gradleReference" />
+		<lib-file src="src/android/maplib-1.0.aar" />
+    </platform>
+    
+    <platform name="ios">
+        <config-file parent="/*" target="config.xml">
+            <feature name="Launcher">
+                <param name="ios-package" value="Launcher" />
+            </feature>
+        </config-file>
+        <source-file src="src/ios/Launcher.swift" />
+        <source-file src="src/ios/AppPrivate.swift" />
+        <source-file src="src/ios/MapConstants.swift" />
+        <source-file src="src/ios/NavigateRouteViewController.swift" />
+        <source-file src="src/ios/NavigateRouteViewController.xib" />
+        <source-file src="src/ios/DirectionsViewController.swift" />
+        <source-file src="src/ios/DirectionsViewController.xib" />      
+        <framework custom="true" src="src/ios/SDKs/ArcGIS/Frameworks/ArcGIS.xcframework" />
+    </platform>
+
+    <!--hook type="after_prepare" src="scripts/after_prepare.js" /-->
+</plugin>

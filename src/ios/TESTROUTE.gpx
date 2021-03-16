@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="yes"?>
+<gpx
+version="1.1"
+creator="KML2GPX"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns="http://www.topografix.com/GPX/1/1"
+xsi:schemaLocation="http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd">
+<metadata>
+<name>TEST ROUTE</name>
+<desc>TEST ROUTE</desc>
+<link href="http://www.garmin.com">
+<text>Garmin International</text>
+</link>
+</metadata>
+<wpt lat="28.84632924484498" lon="-82.02357700892858">
+
+<name>MVP GYM</name>
+</wpt>
+<wpt lat="28.8476593169783" lon="-82.01516757168612">
+<ele>23.92195535056359</ele>
+<name>END POINT</name>
+</wpt>
+<trk>
+<name>ROUTE TO EISENHOWER REC CTR</name>
+<trkseg>
+<trkpt lat="28.84607394340819" lon="-82.02393726171196">
+<ele>25.13128182608734</ele>
+</trkpt>
+<trkpt lat="28.8459855523189" lon="-82.02450891572934">
+<ele>25.13035684550019</ele>
+</trkpt>
+<trkpt lat="28.84635374146503" lon="-82.02420629111849">
+<ele>25.130917766322</ele>
+</trkpt>
+<trkpt lat="28.84664829097854" lon="-82.02395410227274">
+<ele>25.13167423965052</ele>
+</trkpt>
+<trkpt lat="28.84694283869004" lon="-82.02373554301494">
+<ele>25.13213840418047</ele>
+</trkpt>
+<trkpt lat="28.84720780745474" lon="-82.02422615490768">
+<ele>23.89590987688386</ele>
+</trkpt>
+<trkpt lat="28.84749905656083" lon="-82.02449427861637">
+<ele>23.89522324474677</ele>
+</trkpt>
+<trkpt lat="28.84785612305586" lon="-82.02383929355625">
+<ele>23.89524405846866</ele>
+</trkpt>
+<trkpt lat="28.84843077205349" lon="-82.02331785116426">
+<ele>23.89440238794035</ele>
+</trkpt>
+<trkpt lat="28.84885806739897" lon="-82.0230655474851">
+<ele>23.89379350770853</ele>
+</trkpt>
+<trkpt lat="28.84686907686987" lon="-82.01825454212187">
+<ele>23.89542359857015</ele>
+</trkpt>
+<trkpt lat="28.84642705808524" lon="-82.01712752422378">
+<ele>23.89378834565653</ele>
+</trkpt>
+<trkpt lat="28.84589685594944" lon="-82.01633718029173">
+<ele>24.28576158113596</ele>
+</trkpt>
+<trkpt lat="28.84555774035643" lon="-82.01583231121464">
+<ele>23.89488034246289</ele>
+</trkpt>
+<trkpt lat="28.84526306058272" lon="-82.01578185304507">
+<ele>23.89529847150466</ele>
+</trkpt>
+<trkpt lat="28.8452188530542" lon="-82.01542861152802">
+<ele>23.89506861377429</ele>
+</trkpt>
+<trkpt lat="28.8454840605154" lon="-82.01531085951058">
+<ele>23.89456100822132</ele>
+</trkpt>
+<trkpt lat="28.84576400369686" lon="-82.0152267471229">
+<ele>23.89424914190865</ele>
+</trkpt>
+<trkpt lat="28.84614708112139" lon="-82.01494077718785">
+<ele>23.89390450950976</ele>
+</trkpt>
+<trkpt lat="28.84644175303272" lon="-82.01470527226705">
+<ele>23.8939068196306</ele>
+</trkpt>
+<trkpt lat="28.84683955867825" lon="-82.01428472694074">
+<ele>23.89460658960736</ele>
+</trkpt>
+<trkpt lat="28.8470605531005" lon="-82.01376325547017">
+<ele>23.89494633015208</ele>
+</trkpt>
+<trkpt lat="28.84717841775977" lon="-82.01357821540257">
+<ele>23.89568633838789</ele>
+</trkpt>
+<trkpt lat="28.84748783925557" lon="-82.01383052488376">
+<ele>23.8955384623615</ele>
+</trkpt>
+<trkpt lat="28.84776779467769" lon="-82.01415012172211">
+<ele>23.89448692308469</ele>
+</trkpt>
+<trkpt lat="28.84777616399701" lon="-82.01468626997652">
+<ele>24.28784341025599</ele>
+</trkpt>
+<trkpt lat="28.84760574373517" lon="-82.01515941942515">
+<ele>23.89532800653392</ele>
+</trkpt>
+</trkseg>
+</trk>
+<extensions>
+</extensions>
+</gpx>

@@ -1,0 +1,14 @@
+/*
+        configure build.gradle project file
+ */
+
+repositories {    
+    jcenter()
+    flatDir {
+        dirs 'libs'
+    }
+}
+
+dependencies {
+    compile(name: 'maplib-1.0', ext: 'aar')
+}
