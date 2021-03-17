@@ -1,5 +1,5 @@
 /*
-        configure build.gradle project file
+    configure build.gradle project file
  */
 
 repositories {    
@@ -10,5 +10,5 @@ repositories {
 }
 
 dependencies {
-    compile(name: 'maplib-1.0', ext: 'aar')
+    implementation fileTree (dir: 'libs', include: '*.aar')
 }

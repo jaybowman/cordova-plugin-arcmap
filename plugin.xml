@@ -23,7 +23,7 @@
     </js-module>
     
     <platform name="android">
-        <hook type="after_prepare" src="scripts/apply-to-gradle.properties.js" />
+        <!--hook type="after_prepare" src="scripts/apply-to-gradle.properties.js" /-->
         <hook type="after_plugin_install" src="scripts/android/after_plugin_install.js" />
 		<hook type="before_plugin_uninstall" src="scripts/android/before_plugin_uninstall.js" />
         <config-file parent="/*" target="res/xml/config.xml">
@@ -44,7 +44,7 @@
     	<framework src='androidx.constraintlayout:constraintlayout:2.0.2'/>
     	<framework src='info.androidhive:fontawesome:0.0.5'/>
     	<framework src='com.google.android.material:material:1.2.1'/>
-        <framework src='src/android/build-extras.gradle' custom="true" type="gradleReference" />
+        <framework src='scripts/android/build-extras.gradle' custom="true" type="gradleReference" />
 		<lib-file src="src/android/maplib-1.0.aar" />
     </platform>
     
