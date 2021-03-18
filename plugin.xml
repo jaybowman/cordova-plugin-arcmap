@@ -15,7 +15,7 @@
 	<engines>
 		<engine name="cordova" version=">=6.0.0" />
         <engine name="cordova-android" version=">=9.0.0" />
-        <engine name="cordova-ios" version="=5.1.1" />
+        <engine name="cordova-ios" version=">=5.1.0" />
 	</engines>
 
     <js-module name="Launcher" src="www/Launcher.js">
@@ -48,9 +48,8 @@
 		<lib-file src="src/android/maplib-1.0.aar" />
     </platform>
     
-    <platform name="ios">
-    	<!---<hook type="after_plugin_install" src="scripts/ios/after_plugin_install.js" />
-		<hook type="before_plugin_uninstall" src="scripts/ios/before_plugin_uninstall.js" /> -->
+    <platform name="ios">    
+		<hook type="before_prepare" src="scripts/ios/before_prepare.js" /> 
         <config-file parent="/*" target="config.xml">
             <feature name="Launcher">
                 <param name="ios-package" value="Launcher" />
