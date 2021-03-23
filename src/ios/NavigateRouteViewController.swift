@@ -243,9 +243,12 @@ class NavigateRouteViewController: UIViewController  {
         let timeText = """
         \(timeRemaining)
         """
+        let nextDirection = directionsList[1].directionText
+        setStatus(message: nextDirection)
         DispatchQueue.main.async { [self] in
             self.distanceLabel.text = distanceText
             self.timeLabel.text = timeText
+            directionImage.image = getDirectionImage(direction: nextDirection)
         }
         
         // Create the data source from a local GPX file.

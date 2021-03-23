@@ -3,7 +3,7 @@
     xmlns="http://apache.org/cordova/ns/plugins/1.0" 
     xmlns:android="http://schemas.android.com/apk/res/android"
      id="cordova-plugin-arcmap" 
-    version="0.0.1" >
+    version="1.0.1" >
 
     <name>MapLauncher</name>    
     <description>
@@ -49,8 +49,10 @@
     </platform>
     
     <platform name="ios">    
-		<hook type="before_prepare" src="scripts/ios/before_prepare.js" /> 
+		<hook type="before_plugin_install" src="scripts/ios/before_prepare.js" />      
+        <hook type="before_prepare" src="scripts/ios/before_prepare.js" />        
         <config-file parent="/*" target="config.xml">
+         <perferance name ="deployment-target" value="13.0" />
             <feature name="Launcher">
                 <param name="ios-package" value="Launcher" />
             </feature>
@@ -62,14 +64,14 @@
         <source-file src="src/ios/NavigateRouteViewController.xib" />
         <source-file src="src/ios/DirectionsViewController.swift" />
         <source-file src="src/ios/DirectionsViewController.xib" />      
-        <podspec>
+        <!--podspec>
 			<config>
 				<source url="https://cdn.cocoapods.org/"/>
 			</config>
 			<pods use-frameworks="true">				
                 <pod name="ArcGIS-Runtime-SDK-iOS" spec="100.10" />
             </pods>
-        </podspec>
+        </podspec>-->
     </platform>
 
     <!--hook type="after_prepare" src="scripts/after_prepare.js" /-->
