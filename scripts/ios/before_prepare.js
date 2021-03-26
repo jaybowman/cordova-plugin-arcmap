@@ -11,7 +11,7 @@ var IOS_DIR = 'platforms/ios/podfile';
 var PLATFORM_IOS = "'13.0'";
 
 module.exports = function(context) {
-    
+   // console.log("cordova-plugin-arcmap before prepare script");
    editPodfile(context);    
 };
 
@@ -25,7 +25,7 @@ var editPodfile = function (context) {
     }
 
     var podfile = fs.readFileSync(IOS_DIR).toString();
-    //console.log(podfile);
+   // console.log(podfile);
 
     var modifiedPodfile = podfile.replace(/'1[0-2].0'/m, PLATFORM_IOS);
    
