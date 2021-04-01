@@ -18,149 +18,94 @@
                 <outlet property="navTitle" destination="Bbb-DD-rLM" id="PAu-x6-qmo"/>
                 <outlet property="navigationBarButtonItem" destination="cn9-l1-kOj" id="Y8k-E3-ITr"/>
                 <outlet property="recenterBarButtonItem" destination="vyd-gs-vv8" id="9Cn-VB-Wwz"/>
-                <outlet property="timeLabel" destination="240-LT-YIf" id="BX3-Nb-R18"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
-            <rect key="frame" x="0.0" y="0.0" width="1194" height="834"/>
+        <view contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QHX-mP-55g" userLabel="Bottom Space View">
-                    <rect key="frame" x="0.0" y="779" width="1194" height="55"/>
-                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="55" id="XSY-BB-26D"/>
-                    </constraints>
-                </view>
-                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="2H8-GT-9py">
-                    <rect key="frame" x="0.0" y="34" width="1194" height="800"/>
+                <stackView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" axis="vertical" distribution="fillProportionally" translatesAutoresizingMaskIntoConstraints="NO" id="1wB-cd-f1X" userLabel="Main Stack View">
+                    <rect key="frame" x="0.0" y="44" width="414" height="830"/>
                     <subviews>
-                        <navigationBar contentMode="scaleToFill" translucent="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0EY-ZU-ojy">
-                            <rect key="frame" x="0.0" y="0.0" width="1194" height="328"/>
-                            <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            <color key="barTintColor" red="0.0" green="0.28535115719999998" blue="0.16981142760000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gxU-hh-weT">
+                            <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
+                            <color key="barTintColor" red="0.0" green="0.28627450980392155" blue="0.16862745098039217" alpha="1" colorSpace="calibratedRGB"/>
                             <textAttributes key="titleTextAttributes">
-                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             </textAttributes>
                             <items>
-                                <navigationItem title="Title" id="Bbb-DD-rLM">
-                                    <barButtonItem key="leftBarButtonItem" title="Back" image="chevron.left" catalog="system" id="Piq-bC-ciV">
-                                        <connections>
-                                            <action selector="navBarBackButton:" destination="-1" id="ER2-V8-cgs"/>
-                                        </connections>
-                                    </barButtonItem>
-                                </navigationItem>
+                                <navigationItem title="Title" id="Bbb-DD-rLM"/>
                             </items>
                         </navigationBar>
-                        <stackView opaque="NO" contentMode="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="8Jk-1C-Ghs">
-                            <rect key="frame" x="0.0" y="328" width="1194" height="50"/>
+                        <stackView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="F1L-sI-Jiq" userLabel="Directions Stack View">
+                            <rect key="frame" x="0.0" y="44" width="414" height="50"/>
                             <subviews>
                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ZOA-66-EXq">
-                                    <rect key="frame" x="0.0" y="0.0" width="592" height="50"/>
-                                    <constraints>
-                                        <constraint firstAttribute="width" constant="24" id="zCz-g5-T0d"/>
-                                    </constraints>
-                                    <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="17" scale="default"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
                                 </imageView>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label next direction" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="LDR-KC-lQ4">
-                                    <rect key="frame" x="602" y="0.0" width="592" height="24"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Start at origin" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LDR-KC-lQ4">
+                                    <rect key="frame" x="60" y="13" width="354" height="24"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                    <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <nil key="textColor"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                             </subviews>
-                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            <constraints>
-                                <constraint firstAttribute="height" constant="50" id="x73-Nj-L4e"/>
-                            </constraints>
                         </stackView>
-                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TKW-gf-Do5" customClass="AGSMapView">
-                            <rect key="frame" x="0.0" y="378" width="1194" height="302"/>
-                            <viewLayoutGuide key="safeArea" id="YcW-Oz-06k"/>
-                            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TKW-gf-Do5" userLabel="Map View">
+                            <rect key="frame" x="0.0" y="94" width="414" height="652"/>
+                            <color key="backgroundColor" red="0.0" green="0.28627450980000002" blue="0.16862745100000001" alpha="1" colorSpace="calibratedRGB"/>
                         </view>
-                        <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="cOR-Fb-gCK">
-                            <rect key="frame" x="0.0" y="680" width="1194" height="50"/>
+                        <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="9PP-CV-AOj" userLabel="Estimate Stack View">
+                            <rect key="frame" x="0.0" y="746" width="414" height="35"/>
                             <subviews>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hSH-SA-xya">
-                                    <rect key="frame" x="0.0" y="0.0" width="597" height="50"/>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0 mi" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hSH-SA-xya" userLabel="Distance Label">
+                                    <rect key="frame" x="0.0" y="0.0" width="207" height="35"/>
                                     <constraints>
-                                        <constraint firstAttribute="height" constant="50" id="gBt-LB-6da"/>
+                                        <constraint firstAttribute="height" constant="35" id="SLb-lg-t9Y"/>
                                     </constraints>
-                                    <fontDescription key="fontDescription" type="system" pointSize="22"/>
-                                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                     <nil key="highlightedColor"/>
                                 </label>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="240-LT-YIf">
-                                    <rect key="frame" x="597" y="0.0" width="597" height="50"/>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0 min" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TFQ-pO-Kre" userLabel="Time Label">
+                                    <rect key="frame" x="207" y="0.0" width="207" height="35"/>
                                     <constraints>
-                                        <constraint firstAttribute="height" constant="50" id="qM9-ZV-AK4"/>
+                                        <constraint firstAttribute="height" constant="35" id="puq-Dr-XSi"/>
                                     </constraints>
-                                    <fontDescription key="fontDescription" type="system" pointSize="22"/>
-                                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                             </subviews>
-                            <color key="backgroundColor" red="0.0" green="0.28535115719999998" blue="0.16981142760000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <color key="backgroundColor" red="0.0" green="0.28627450980000002" blue="0.16862745100000001" alpha="1" colorSpace="calibratedRGB"/>
                         </stackView>
-                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MAt-pF-EQD">
-                            <rect key="frame" x="0.0" y="730" width="1194" height="70"/>
-                            <subviews>
-                                <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="top" translatesAutoresizingMaskIntoConstraints="NO" id="QPW-q8-TXz">
-                                    <rect key="frame" x="0.0" y="0.0" width="1194" height="50"/>
-                                    <items>
-                                        <barButtonItem title="Recenter" image="mappin.and.ellipse" catalog="system" id="vyd-gs-vv8">
-                                            <connections>
-                                                <action selector="recenter:" destination="-1" id="VS7-JP-cCC"/>
-                                            </connections>
-                                        </barButtonItem>
-                                        <barButtonItem style="plain" systemItem="flexibleSpace" id="0BX-zX-RyO"/>
-                                        <barButtonItem title="Navigate" image="location.fill" catalog="system" id="cn9-l1-kOj" userLabel="Navigate">
-                                            <connections>
-                                                <action selector="startnavigation:" destination="-1" id="ocn-iJ-15B"/>
-                                            </connections>
-                                        </barButtonItem>
-                                        <barButtonItem style="plain" systemItem="flexibleSpace" id="mQT-eD-QRu"/>
-                                        <barButtonItem title="Directions" image="list.dash" catalog="system" id="RqX-k5-05s">
-                                            <connections>
-                                                <action selector="directionsButton:" destination="-1" id="34b-s7-Fz8"/>
-                                            </connections>
-                                        </barButtonItem>
-                                    </items>
-                                    <color key="barTintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                </toolbar>
-                            </subviews>
-                            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                            <constraints>
-                                <constraint firstItem="QPW-q8-TXz" firstAttribute="leading" secondItem="MAt-pF-EQD" secondAttribute="leading" id="Jlk-J3-3sJ"/>
-                                <constraint firstAttribute="height" constant="70" id="PiL-6F-WhO"/>
-                                <constraint firstItem="QPW-q8-TXz" firstAttribute="top" secondItem="MAt-pF-EQD" secondAttribute="top" id="r1B-S6-Eld"/>
-                                <constraint firstAttribute="trailing" secondItem="QPW-q8-TXz" secondAttribute="trailing" id="t06-i6-dhu"/>
-                            </constraints>
-                        </view>
+                        <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Q0R-gP-zjt">
+                            <rect key="frame" x="0.0" y="781" width="414" height="49"/>
+                            <items>
+                                <barButtonItem title="Center" image="target" catalog="system" id="vyd-gs-vv8"/>
+                                <barButtonItem style="plain" systemItem="flexibleSpace" id="XjB-J7-uSN"/>
+                                <barButtonItem style="plain" id="nmy-Sj-ehZ">
+                                    <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="cn9-l1-kOj">
+                                        <rect key="frame" x="148.5" y="6.5" width="117" height="41"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="backgroundColor" red="0.0" green="0.28627450980000002" blue="0.16862745100000001" alpha="1" colorSpace="calibratedRGB"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                        <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        <state key="normal" title="START"/>
+                                    </button>
+                                </barButtonItem>
+                                <barButtonItem style="plain" systemItem="flexibleSpace" id="QLg-qD-ZMv"/>
+                                <barButtonItem title="Directions" image="list.bullet" catalog="system" id="Ufa-48-DZf"/>
+                            </items>
+                        </toolbar>
                     </subviews>
-                    <constraints>
-                        <constraint firstItem="0EY-ZU-ojy" firstAttribute="top" secondItem="2H8-GT-9py" secondAttribute="top" id="DJ9-YR-MB0"/>
-                        <constraint firstAttribute="trailing" secondItem="TKW-gf-Do5" secondAttribute="trailing" id="fnk-r0-NFV"/>
-                        <constraint firstItem="TKW-gf-Do5" firstAttribute="leading" secondItem="2H8-GT-9py" secondAttribute="leading" id="fvl-44-5ed"/>
-                        <constraint firstItem="TKW-gf-Do5" firstAttribute="top" secondItem="8Jk-1C-Ghs" secondAttribute="bottom" id="pWh-8b-VyO"/>
-                    </constraints>
                 </stackView>
             </subviews>
-            <color key="backgroundColor" red="0.0" green="0.28535115719999998" blue="0.16981142760000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-            <constraints>
-                <constraint firstAttribute="trailing" secondItem="QHX-mP-55g" secondAttribute="trailing" id="0jJ-PH-Dns"/>
-                <constraint firstItem="2H8-GT-9py" firstAttribute="trailing" secondItem="i5M-Pr-FkT" secondAttribute="trailing" id="Lsh-6f-gBH"/>
-                <constraint firstItem="2H8-GT-9py" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="OfA-87-NGt"/>
-                <constraint firstItem="QHX-mP-55g" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="XEW-Ff-RkI"/>
-                <constraint firstAttribute="bottom" secondItem="2H8-GT-9py" secondAttribute="bottom" id="ajn-4J-fZU"/>
-                <constraint firstItem="2H8-GT-9py" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="34" id="bD7-qt-bgG"/>
-                <constraint firstAttribute="bottom" secondItem="QHX-mP-55g" secondAttribute="bottom" id="esP-GJ-jOq"/>
-            </constraints>
-            <point key="canvasLocation" x="-260" y="35"/>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+            <point key="canvasLocation" x="2101" y="-113"/>
         </view>
     </objects>
     <resources>
@@ -168,6 +113,8 @@
         <image name="list.dash" catalog="system" width="128" height="85"/>
         <image name="location.fill" catalog="system" width="128" height="121"/>
         <image name="mappin.and.ellipse" catalog="system" width="118" height="128"/>
+        <image name="list.bullet" catalog="system" width="128" height="88"/>
+        <image name="target" catalog="system" width="128" height="121"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
