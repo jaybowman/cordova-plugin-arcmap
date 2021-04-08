@@ -18,6 +18,7 @@
                 <outlet property="navTitle" destination="Bbb-DD-rLM" id="PAu-x6-qmo"/>
                 <outlet property="navigationBarButtonItem" destination="cn9-l1-kOj" id="Y8k-E3-ITr"/>
                 <outlet property="recenterBarButtonItem" destination="vyd-gs-vv8" id="9Cn-VB-Wwz"/>
+                <outlet property="startBtnLabel" destination="cn9-l1-kOj" id="vBZ-XP-NgD"/>
                 <outlet property="timeLabel" destination="240-LT-YIf" id="BX3-Nb-R18"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
@@ -40,7 +41,13 @@
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             </textAttributes>
                             <items>
-                                <navigationItem title="Title" id="Bbb-DD-rLM"/>
+                                <navigationItem title="Title" id="Bbb-DD-rLM">
+                                    <barButtonItem key="leftBarButtonItem" title="Item" image="chevron.backward" catalog="system" id="hzM-1s-e2Q">
+                                        <connections>
+                                            <action selector="navBarBackButton:" destination="-1" id="Wzt-y4-B7F"/>
+                                        </connections>
+                                    </barButtonItem>
+                                </navigationItem>
                             </items>
                         </navigationBar>
                         <stackView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="F1L-sI-Jiq" userLabel="Directions Stack View">
@@ -100,7 +107,11 @@
                                 <constraint firstAttribute="height" constant="60" id="qRW-ya-mnH"/>
                             </constraints>
                             <items>
-                                <barButtonItem title="Center" image="target" catalog="system" id="vyd-gs-vv8"/>
+                                <barButtonItem title="Center" image="target" catalog="system" id="vyd-gs-vv8">
+                                    <connections>
+                                        <action selector="recenter:" destination="-1" id="C3g-tm-LLQ"/>
+                                    </connections>
+                                </barButtonItem>
                                 <barButtonItem style="plain" systemItem="flexibleSpace" id="XjB-J7-uSN"/>
                                 <barButtonItem style="plain" id="nmy-Sj-ehZ">
                                     <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="cn9-l1-kOj">
@@ -110,10 +121,17 @@
                                         <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                         <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         <state key="normal" title="START"/>
+                                        <connections>
+                                            <action selector="startnavigation:" destination="-1" eventType="touchUpInside" id="ugb-0y-NJ1"/>
+                                        </connections>
                                     </button>
                                 </barButtonItem>
                                 <barButtonItem style="plain" systemItem="flexibleSpace" id="QLg-qD-ZMv"/>
-                                <barButtonItem title="Directions" image="list.bullet" catalog="system" id="Ufa-48-DZf"/>
+                                <barButtonItem title="Directions" image="list.bullet" catalog="system" id="Ufa-48-DZf">
+                                    <connections>
+                                        <action selector="directionsButton:" destination="-1" id="HpP-NV-0Wb"/>
+                                    </connections>
+                                </barButtonItem>
                             </items>
                         </toolbar>
                     </subviews>
@@ -127,10 +145,11 @@
                 <constraint firstItem="1wB-cd-f1X" firstAttribute="trailing" secondItem="vUN-kp-3ea" secondAttribute="trailing" id="pB0-dl-P3b"/>
                 <constraint firstItem="1wB-cd-f1X" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="pJi-D4-4WQ"/>
             </constraints>
-            <point key="canvasLocation" x="2101" y="-113"/>
+            <point key="canvasLocation" x="2258" y="-365"/>
         </view>
     </objects>
     <resources>
+        <image name="chevron.backward" catalog="system" width="96" height="128"/>
         <image name="list.bullet" catalog="system" width="128" height="88"/>
         <image name="target" catalog="system" width="128" height="121"/>
         <systemColor name="systemBackgroundColor">

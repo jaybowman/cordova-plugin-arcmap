@@ -11,7 +11,7 @@ import AVFoundation
 class NavigateRouteViewController: UIViewController  {
     private var mapLoadStatusObservable: NSKeyValueObservation?
     private var inputParams: ArcLocation = ArcLocation()
-       
+    @IBOutlet var startBtnLabel: UIButton!
     @IBOutlet var navTitle: UINavigationItem!
     @IBOutlet var directionLabel: UILabel!
     @IBOutlet var directionImage: UIImageView!
@@ -312,14 +312,16 @@ class NavigateRouteViewController: UIViewController  {
     }
     
     @IBAction func startnavigation(_ sender: Any) {
-      
-        navigationBarButtonItem.image = UIImage(systemName: "stop.fill")
-        
+                     
         if mapView.locationDisplay.started {
             reset()
+            startBtnLabel.setTitle("Start", for: UIControl.State.normal)
+            startBtnLabel.backgroundColor = UIColor.villagesGreen
             return
         }
-                  
+        startBtnLabel.setTitle("Stop", for: UIControl.State.normal)
+        startBtnLabel.backgroundColor = UIColor.red
+        
         // Start the location data source and location display.
         mapView.locationDisplay.start(completion: ) { (error) in
             if let error = error {
@@ -345,8 +347,7 @@ class NavigateRouteViewController: UIViewController  {
         
         // Reset the navigation.
         setNavigation(with: routeResult)
-        // toggle  buttons image.
-        navigationBarButtonItem.image = UIImage(systemName: "location.fill")
+        
     }
     
     @IBAction func recenter(_ sender: UIBarButtonItem) {
