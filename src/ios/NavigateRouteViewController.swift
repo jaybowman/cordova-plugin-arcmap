@@ -230,7 +230,7 @@ class NavigateRouteViewController: UIViewController  {
         
         // GET Distance and time
         let distanceRemaining =  Double(round(100*(firstRoute.totalLength / 1609.3))/100)
-        let timeRemaining = timeFormatter.string(from: TimeInterval(firstRoute.travelTime * 60 * 3))! // add fudge factor of 4
+        let timeRemaining = timeFormatter.string(from: TimeInterval(firstRoute.travelTime * 60 * 1.2))! // add fudge factor of 4
         
         let distanceText = """
         \(distanceRemaining) mi
