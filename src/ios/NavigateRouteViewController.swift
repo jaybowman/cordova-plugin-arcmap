@@ -164,7 +164,7 @@ class NavigateRouteViewController: UIViewController  {
         switch result {
         case .success(let routeResult):
             self.routeResult = routeResult
-            setNavigation(with: routeResult)
+            showRoute()
             navigationBarButtonItem.isEnabled = true
         case .failure(let error):
             print(error)
@@ -223,16 +223,11 @@ class NavigateRouteViewController: UIViewController  {
     /// The location data source provided by a local GPX file.
     var gpxDataSource: AGSGPXLocationDataSource?
     
-    /// Set route tracker, data source, and location display with a solved route result.
-    ///
-    /// - Parameter routeResult: An `AGSRouteResult` object.
-    func setNavigation(with routeResult: AGSRouteResult) {
-        // Set the route tracker
-        routeTracker = makeRouteTracker(result: routeResult)
-        
-        // Set the mock location data source.
+    func showRoute(){
+        // Get frist route and directions
         let firstRoute = routeResult.routes.first!
         directionsList = firstRoute.directionManeuvers
+        
         // GET Distance and time
         let distanceRemaining =  Double(round(100*(firstRoute.totalLength / 1609.3))/100)
         let timeRemaining = timeFormatter.string(from: TimeInterval(firstRoute.travelTime * 60 * 3))! // add fudge factor of 4
@@ -251,23 +246,32 @@ class NavigateRouteViewController: UIViewController  {
             directionImage.image = getDirectionImage(direction: nextDirection)
         }
         
+        // Update graphics and viewpoint.
+        let firstRouteGeometry = firstRoute.routeGeometry!
+        updateRouteGraphics(remaining: firstRouteGeometry)
+        updateViewpoint(geometry: firstRouteGeometry)
+    }
+    
+    /// Set route tracker, data source, and location display with a solved route result.
+    ///
+    /// - Parameter routeResult: An `AGSRouteResult` object.
+    func setNavigation(with routeResult: AGSRouteResult) {
+        // Set the route tracker
+        routeTracker = makeRouteTracker(result: routeResult)
+        
+        //MARK: FOR TESTING simulated route
         // Create the data source from a local GPX file.
         //let gpxDataSource = AGSGPXLocationDataSource(name: "TESTROUTE")
         //self.gpxDataSource = gpxDataSource
-        //MARK: Line 205 is for simulation. Line 207 is for using your own location
-        // Create a route tracker location data source to snap the location display to the route.
         //let routeTrackerLocationDataSource = AGSRouteTrackerLocationDataSource(routeTracker: routeTracker, locationDataSource: gpxDataSource)
 
+        //MARK: FOR PRODUCTION
         let routeTrackerLocationDataSource = AGSRouteTrackerLocationDataSource(routeTracker: routeTracker)
         
         // Set location display.
         mapView.locationDisplay.dataSource = routeTrackerLocationDataSource
         recenter()
-        
-        // Update graphics and viewpoint.
-        let firstRouteGeometry = firstRoute.routeGeometry!
-        updateRouteGraphics(remaining: firstRouteGeometry)
-        updateViewpoint(geometry: firstRouteGeometry)
+               
     }
     
     
@@ -310,22 +314,40 @@ class NavigateRouteViewController: UIViewController  {
             self.dismiss(animated: true, completion: nil)
         }
     }
-    
+    var navigationStarted = false;
     @IBAction func startnavigation(_ sender: Any) {
                      
-        if mapView.locationDisplay.started {
-            reset()
+        if navigationStarted {
+            navigationStarted = false
+            // Stop the speech, if there is any.
+            speechSynthesizer.stopSpeaking(at: .immediate)
+            
+            // I hit te stop button all i want to do is remove the route tracker
+            mapView.locationDisplay.stop();
+            mapView.locationDisplay.dataSource = AGSCLLocationDataSource()
+            mapView.locationDisplay.start(completion: ) { (error) in
+                if let error = error {
+                    print(error)
+                }
+            }
+            //reset()
+            
             startBtnLabel.setTitle("Start", for: UIControl.State.normal)
             startBtnLabel.backgroundColor = UIColor.villagesGreen
-            return
-        }
-        startBtnLabel.setTitle("Stop", for: UIControl.State.normal)
-        startBtnLabel.backgroundColor = UIColor.red
-        
-        // Start the location data source and location display.
-        mapView.locationDisplay.start(completion: ) { (error) in
-            if let error = error {
-                print(error)
+            //routeResult = nil
+            
+        } else {
+            navigationStarted = true
+            startBtnLabel.setTitle("Stop", for: UIControl.State.normal)
+            startBtnLabel.backgroundColor = UIColor.red
+            
+            setNavigation(with: routeResult)
+            
+            // Start the location data source and location display.
+            mapView.locationDisplay.start(completion: ) { (error) in
+                if let error = error {
+                    print(error)
+                }
             }
         }
     }
@@ -334,9 +356,11 @@ class NavigateRouteViewController: UIViewController  {
     func reset() {
          // Stop the speech, if there is any.
         speechSynthesizer.stopSpeaking(at: .immediate)
+        
         // Reset to the starting location for location display.
-        guard let initialLocation = mapView.locationDisplay.location else { return }
-        mapView.locationDisplay.dataSource.didUpdate(initialLocation)
+        guard let currentLocation = mapView.locationDisplay.location else { return }
+        startLocation = currentLocation.position!
+        //mapView.locationDisplay.dataSource.didUpdate(currentLocation)
         
         // Stop the location display as well as datasource generation, if reset before the end is reached.
         mapView.locationDisplay.stop()
@@ -346,7 +370,9 @@ class NavigateRouteViewController: UIViewController  {
         setStatus(message: "Directions are shown here.")
         
         // Reset the navigation.
-        setNavigation(with: routeResult)
+        solveRoute()
+        
+        //setNavigation(with: routeResult)
         
     }
     
@@ -473,7 +499,7 @@ class NavigateRouteViewController: UIViewController  {
         else  if direction.contains("Go south") {
             imgName = "arrow.down"
         }
-        else  if direction.contains("Sharp Left") {
+        else  if direction.contains("sharp Left") {
             imgName = "arrow.left"
         }
         else if direction.contains("Finish") || direction.contains("Final Destination") {
