@@ -45,7 +45,6 @@ enum RouteType: Int {
 
 extension URL {
     static let myAppRoutingServiceAsync = URL(string: "https://utility.arcgis.com/usrsvcs/appservices/xEbX1CD0AIA0MxBV/rest/services/World/Route/GPServer")!
-    static let myAppRoutingService = URL(string: "https://utility.arcgis.com/usrsvcs/appservices/TQKETvSAQTsJB55I/rest/services/World/Route/NAServer/Route_World")!
     static let worldRoutingService = URL(string: "https://arc7.thevillages.com/arcgis/rest/services/JWCAR_ROUTES_NOZ_TEST/NAServer/Route")!
     static let carRoutingService = URL(string: "https://arc7.thevillages.com/arcgis/rest/services/CARROUTES/NAServer/Route")!
     static let golfRoutingService = URL(string: "https://arc7.thevillages.com/arcgis/rest/services/GOLFCROUTE2/NAServer/Route")!
@@ -73,3 +72,23 @@ extension AGSLoadStatus {
     }
 }
 
+extension UIColor {
+    static let villagesGreen = UIColor(hex: "#00492B")
+    convenience init(hex: String){
+        var cString:String = hex.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
+
+           if (cString.hasPrefix("#")) {
+               cString.remove(at: cString.startIndex)
+           }
+
+           var rgbValue:UInt64 = 0
+           Scanner(string: cString).scanHexInt64(&rgbValue)
+
+        self.init(
+               red: CGFloat((rgbValue & 0xFF0000) >> 16) / 255.0,
+               green: CGFloat((rgbValue & 0x00FF00) >> 8) / 255.0,
+               blue: CGFloat(rgbValue & 0x0000FF) / 255.0,
+               alpha: CGFloat(1.0)
+           )
+    }
+}
