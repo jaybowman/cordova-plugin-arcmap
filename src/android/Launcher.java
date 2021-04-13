@@ -30,7 +30,7 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
 
-import com.thevllages.cordova.plugin.arcmap.ParseTypes;
+import com.thevillages.cordova.plugin.arcmap.ParseTypes;
 
 public class Launcher extends CordovaPlugin {
 

@@ -1,4 +1,4 @@
-package com.thevllages.cordova.plugin.arcmap;
+package com.thevillages.cordova.plugin.arcmap;
 
 import android.net.Uri;
 import android.os.Parcelable;
