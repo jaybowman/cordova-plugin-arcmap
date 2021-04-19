@@ -2,10 +2,14 @@
     configure build.gradle project file
  */
 
-repositories {    
-    jcenter()
-    flatDir {
-        dirs 'libs'
+allprojects {
+    repositories {    
+        jcenter()
+        flatDir {
+            dirs 'libs'
+        }
+        maven { url 'https://jitpack.io' } // from cordova-plugin-arcgis 
+        maven { url 'https://esri.jfrog.io/artifactory/arcgis'  } // from cordova-plugin-arcmap
     }
 }
 

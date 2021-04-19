@@ -1,8 +1,10 @@
 var fs = require("fs");
 var path = require("path");
 
+
 function rootBuildGradleExists() {
-  var target = path.join("platforms", "android", "build.gradle");
+  var target = path.join("platforms", "android", "repositories.gradle");
+  console.log(target);
   return fs.existsSync(target);
 }
 
@@ -10,7 +12,8 @@ function rootBuildGradleExists() {
  * Helper function to read the build.gradle that sits at the root of the project
  */
 function readRootBuildGradle() {
-  var target = path.join("platforms", "android", "build.gradle");
+  var target = path.join("platforms", "android", "repositories.gradle");
+  
   return fs.readFileSync(target, "utf-8");
 }
 
@@ -38,12 +41,12 @@ function addDependencies(buildGradle) {
 function addRepos(buildGradle) {
   // find the known line to match
   var match = buildGradle.match(/^(\s*)jcenter\(\)/m);
-  var whitespace = match[1];
+  var whitespace = match[0];
   // modify the line to add the necessary repo 
-  //var fabricMavenRepo = whitespace + ' maven { url \'https://jitpack.io\' } \n  maven { url \'https://esri.jfrog.io/artifactory/arcgis\'  }'
-  var modifiedLine = ''; // match[0] + '\n' + fabricMavenRepo;
+  var fabricMavenRepo = whitespace + ' maven { url \'https://jitpack.io\' } \n  maven { url \'https://esri.jfrog.io/artifactory/arcgis\'  }';
+  var modifiedLine =   match[0] + '\n' + fabricMavenRepo;
   // modify the actual line
-  //buildGradle = buildGradle.replace(/^(\s*)jcenter\(\)/m, modifiedLine);
+  buildGradle = buildGradle.replace(/^(\s*)jcenter\(\)/m, modifiedLine);
 
   // update the all projects grouping
   var allProjectsIndex = buildGradle.indexOf('allprojects');
@@ -89,10 +92,13 @@ module.exports = {
   modifyRootBuildGradle: function() {
     // be defensive and don't crash if the file doesn't exist
     if (!rootBuildGradleExists) {
+      console.log("build.gradle not found!");
       return;
     }
+    console.log("found build.gradle ");
 
     var buildGradle = readRootBuildGradle();
+
 
     // Add 
     //buildGradle = addDependencies(buildGradle);

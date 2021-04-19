@@ -4,33 +4,26 @@ import org.apache.cordova.CordovaInterface;
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaPlugin;
 import org.apache.cordova.PluginResult;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.ComponentName;
-import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.util.Log;
 import android.content.pm.ActivityInfo;
-import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
-import android.content.pm.ResolveInfo;
 import android.os.Bundle;
-import android.os.Build;
-
 import java.lang.reflect.Array;
 import java.util.List;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
 
-import com.thevillages.cordova.plugin.arcmap.ParseTypes;
+import com.thevillages.maplib.TravelType;
+import com.thevillages.maplib.VillageRoute;
 
 public class Launcher extends CordovaPlugin {
 
@@ -56,7 +49,6 @@ public class Launcher extends CordovaPlugin {
 		return false;
 	}
 
-
 	private ActivityInfo getAppInfo(final Intent intent, final String appPackageName) {
 		final PackageManager pm = webView.getContext().getPackageManager();
 		try {
@@ -69,159 +61,41 @@ public class Launcher extends CordovaPlugin {
 
 	private boolean launch(JSONArray args) throws JSONException {
 		final JSONObject options = args.getJSONObject(0);
-		Bundle extras = null;
+		VillageRoute extras = null;
 		if (options.has("extras")) {
 			extras = createExtras(options.getJSONArray("extras"));
 		} else {
-			extras = new Bundle();
-		}
-		int flags = 0;
-		if (options.has("flags")) {
-			flags = options.getInt("flags");
+			extras = new VillageRoute();
 		}
 
-		if (options.has("uri") && (options.has("packageName") || options.has("dataType"))) {
-			String dataType = null;
-			String packageName = null;
-			if (options.has("packageName")) {
-				packageName = options.getString("packageName");
-			}
-			if (options.has("dataType")) {
-				dataType = options.getString("dataType");
-			}
-			launchAppWithData(packageName, options.getString("uri"), dataType, extras);
-			return true;
-		}else if (options.has("packageName") && (options.has("activityName"))) {
+		if (options.has("packageName") && (options.has("activityName"))) {
 			launchActivity(options.getString("packageName"), options.getString("activityName"), extras);
 			return true;
 		}
-		else if (options.has("packageName")) {
-			launchApp(options.getString("packageName"), extras);
-			return true;
-		} else if (options.has("uri")) {
-			launchIntent(options.getString("uri"), extras, flags);
-			return true;
-		} else if (options.has("actionName")) {
-			launchAction(options.getString("actionName"), extras);
-			return true;
-		}
+
 		return false;
 	}
 
-	private Bundle createExtras(JSONArray extrasObj) throws JSONException {
-		Bundle extras = new Bundle();
+	private VillageRoute createExtras(JSONArray extrasObj) throws JSONException {
+
+		VillageRoute villageRoute = new VillageRoute();
 		for (int i = 0, size = extrasObj.length(); i < size; i++) {
 			JSONObject extra = extrasObj.getJSONObject(i);
-			if (extra.has("name") && extra.has("value") && extra.has("dataType")) {
+			// process stops
+			if (extra.has("name") && extra.has("gisLong") && extra.has("gisLat")) {
 				String extraName = extra.getString("name");
-				String dataType = extra.getString("dataType");
+				double gisLong = extra.getDouble("gisLong");
+				double gisLat = extra.getDouble("gisLat");
+				villageRoute.addStop(extraName, gisLong, gisLat);
+			}
+			else if (extra.has("name") && extra.has("value") ) {
+				// get traveltype
 				try {
-					if (dataType.equalsIgnoreCase("Byte")) {
-						try {
-							extras.putByte(extraName, ((byte) extra.getInt("value")));
-						} catch (Exception e) {
-							Log.e(TAG, "Error converting to byte for extra: " + extraName);
-							e.printStackTrace();
-							throw e;
-						}
-					} else if (dataType.equalsIgnoreCase("ByteArray")) {
-						try {
-							extras.putByteArray(extraName, ParseTypes.toByteArray(extra.getJSONArray("value")));
-						} catch (Exception e) {
-							Log.e(TAG, "Error converting to byte for extra: " + extraName);
-							e.printStackTrace();
-							throw e;
-						}
-					} else if (dataType.equalsIgnoreCase("Short")) {
-						try {
-							extras.putShort(extraName, ((short) extra.getInt("value")));
-						} catch (Exception e) {
-							Log.e(TAG, "Error converting to short for extra: " + extraName);
-							e.printStackTrace();
-							throw e;
-						}
-					} else if (dataType.equalsIgnoreCase("ShortArray")) {
-						extras.putShortArray(extraName, ParseTypes.toShortArray(extra.getJSONArray("value")));
-					} else if (dataType.equalsIgnoreCase("Int")) {
-						extras.putInt(extraName, extra.getInt("value"));
-					} else if (dataType.equalsIgnoreCase("IntArray")) {
-						extras.putIntArray(extraName, ParseTypes.toIntArray(extra.getJSONArray("value")));
-					} else if (dataType.equalsIgnoreCase("IntArrayList")) {
-						extras.putIntegerArrayList(extraName, ParseTypes.toIntegerArrayList(extra.getJSONArray("value")));
-					} else if (dataType.equalsIgnoreCase("Long")) {
-						extras.putLong(extraName, extra.getLong("value"));
-					} else if (dataType.equalsIgnoreCase("LongArray")) {
-						extras.putLongArray(extraName, ParseTypes.toLongArray(extra.getJSONArray("value")));
-					} else if (dataType.equalsIgnoreCase("Float")) {
-						try {
-							extras.putFloat(extraName, Float.parseFloat(extra.getString("value")));
-						} catch (Exception e) {
-							Log.e(TAG, "Error parsing float for extra: " + extraName);
-							e.printStackTrace();
-							throw e;
-						}
-					} else if (dataType.equalsIgnoreCase("FloatArray")) {
-						try {
-							extras.putFloatArray(extraName, ParseTypes.toFloatArray(extra.getJSONArray("value")));
-						} catch (Exception e) {
-							Log.e(TAG, "Error parsing float for extra: " + extraName);
-							e.printStackTrace();
-							throw e;
-						}
-					} else if (dataType.equalsIgnoreCase("Double")) {
-						extras.putDouble(extraName, extra.getDouble("value"));
-					} else if (dataType.equalsIgnoreCase("DoubleArray")) {
-						extras.putDoubleArray(extraName, ParseTypes.toDoubleArray(extra.getJSONArray("value")));
-					} else if (dataType.equalsIgnoreCase("Boolean")) {
-						extras.putBoolean(extraName, extra.getBoolean("value"));
-					} else if (dataType.equalsIgnoreCase("BooleanArray")) {
-						extras.putBooleanArray(extraName, ParseTypes.toBooleanArray(extra.getJSONArray("value")));
-					} else if (dataType.equalsIgnoreCase("String")) {
-						extras.putString(extraName, extra.getString("value"));
-					} else if (dataType.equalsIgnoreCase("StringArray")) {
-						extras.putStringArray(extraName, ParseTypes.toStringArray(extra.getJSONArray("value")));
-					} else if (dataType.equalsIgnoreCase("StringArrayList")) {
-						extras.putStringArrayList(extraName, ParseTypes.toStringArrayList(extra.getJSONArray("value")));
-					} else if (dataType.equalsIgnoreCase("Char")) {
-						extras.putChar(extraName, ParseTypes.toChar(extra.getString("value")));
-					} else if (dataType.equalsIgnoreCase("CharArray")) {
-						extras.putCharArray(extraName, ParseTypes.toCharArray(extra.getString("value")));
-					} else if (dataType.equalsIgnoreCase("CharSequence")) {
-						extras.putCharSequence(extraName, extra.getString("value"));
-					} else if (dataType.equalsIgnoreCase("CharSequenceArray")) {
-						extras.putCharSequenceArray(extraName, ParseTypes.toCharSequenceArray(extra.getJSONArray("value")));
-					} else if (dataType.equalsIgnoreCase("CharSequenceArrayList")) {
-						extras.putCharSequenceArrayList(extraName, ParseTypes.toCharSequenceArrayList(extra.getJSONArray("value")));
-					/*
-					} else if (dataType.equalsIgnoreCase("Size") && Build.VERSION.SDK_INT >= 21) {
-						extras.putSize(extraName, extra.getJSONObject("value"));
-					} else if (dataType.equalsIgnoreCase("SizeF") && Build.VERSION.SDK_INT >= 21) {
-						extras.putSizeF(extraName, extra.getJSONObject("value"));
-					*/
-					} else if (dataType.toLowerCase().contains("parcelable")) {
-						if (!extra.has("paType")) {
-							Log.e(TAG, "Property 'paType' must be provided if dataType is " + dataType + ".");
-							throw new Exception("Missing property paType.");
-						} else {
-							String paType = extra.getString("paType").toUpperCase();
-							if (ParseTypes.SUPPORTED_PA_TYPES.contains(paType)) {
-								if (dataType.equalsIgnoreCase("Parcelable")) {
-									extras.putParcelable(extraName, ParseTypes.toParcelable(extra.getString("value"), paType));
-								} else if (dataType.equalsIgnoreCase("ParcelableArray")) {
-									extras.putParcelableArray(extraName, ParseTypes.toParcelableArray(extra.getJSONArray("value"), paType));
-								} else if (dataType.equalsIgnoreCase("ParcelableArrayList")) {
-									extras.putParcelableArrayList(extraName, ParseTypes.toParcelableArrayList(extra.getJSONArray("value"), paType));
-								} else if (dataType.equalsIgnoreCase("SparseParcelableArray")) {
-									extras.putSparseParcelableArray(extraName, ParseTypes.toSparseParcelableArray(extra.getJSONObject("value"), paType));
-								}
-							} else {
-								Log.e(TAG, "ParcelableArray type '" + paType + "' is not currently supported.");
-								throw new Exception("Provided parcelable array type not supported.");
-							}
-						}
-					}
+					String extraName = extra.getString("name");
+					int value = extra.getInt("value");
+					villageRoute.setTravelType(TravelType.valueOf(value));
 				} catch (Exception e) {
-					Log.e(TAG, "Error processing extra. Skipping: " + extraName);
+					Log.e(TAG, "Error processing extra. Skipping: " + extra);
 				}
 			} else {
 				Log.e(TAG, "Extras must have a name, value, and datatype.");
@@ -229,72 +103,12 @@ public class Launcher extends CordovaPlugin {
 		}
 
 		Log.d(TAG, "EXTRAS");
-		Log.d(TAG, "" + extras);
 
-		return extras;
-	}
-
-	private void launchAppWithData(final String packageName, final String uri, final String dataType, final Bundle extras) throws JSONException {
-		final CordovaInterface mycordova = cordova;
-		final CordovaPlugin plugin = this;
-		final CallbackContext callbackContext = this.callback;
-		cordova.getThreadPool().execute(new LauncherRunnable(this.callback) {
-			public void run() {
-				Intent intent = new Intent(Intent.ACTION_VIEW);
-				if (dataType != null) {
-					intent.setDataAndType(Uri.parse(uri), dataType);
-				} else {
-					intent.setData(Uri.parse(uri));
-				}
-
-				if (packageName != null && !packageName.equals("")) {
-					intent.setPackage(packageName);
-				}
-
-				intent.putExtras(extras);
-
-				try {
-					mycordova.startActivityForResult(plugin, intent, LAUNCH_REQUEST);
-					((Launcher) plugin).callbackLaunched();
-				} catch(ActivityNotFoundException e) {
-					Log.e(TAG, "Error: No applications installed that can handle uri " + uri);
-					e.printStackTrace();
-					callbackContext.error("Application not found for uri.");
-				}
-
-			}
-		});
-	}
-
-	private void launchApp(final String packageName, final Bundle extras) {
-		final CordovaInterface mycordova = cordova;
-		final CordovaPlugin plugin = this;
-		Log.i(TAG, "Trying to launch app: " + packageName);
-		cordova.getThreadPool().execute(new LauncherRunnable(this.callback) {
-			public void run() {
-				final PackageManager pm = plugin.webView.getContext().getPackageManager();
-				final Intent launchIntent = pm.getLaunchIntentForPackage(packageName);
-				boolean appNotFound = launchIntent == null;
-
-				if (!appNotFound) {
-					try {
-						launchIntent.putExtras(extras);
-						mycordova.startActivityForResult(plugin, launchIntent, LAUNCH_REQUEST);
-						((Launcher) plugin).callbackLaunched();
-					} catch (ActivityNotFoundException e) {
-						Log.e(TAG, "Error: Activity for package" + packageName + " was not found.");
-						e.printStackTrace();
-						callbackContext.error("Activity not found for package name.");
-					}
-				} else {
-					callbackContext.error("Activity not found for package name.");
-				}
-			}
-		});
+		return villageRoute;
 	}
 
 	// we are using this one to launch activity from maplib aar.
-	private void launchActivity(final String packageName, final String ActivityName,  final Bundle extras) {
+	private void launchActivity(final String packageName, final String ActivityName,  final VillageRoute extras) {
 		final CordovaInterface mycordova = cordova;
 		final CordovaPlugin plugin = this;
 		Log.i(TAG, "Trying to launch activity: " + packageName);
@@ -310,7 +124,7 @@ public class Launcher extends CordovaPlugin {
 
 				if (!appNotFound) {
 					try {
-						launchIntent.putExtras(extras);
+						launchIntent.putExtra("com.thevillages.maplib.VillageRoute", extras);
 						mycordova.startActivityForResult(plugin, launchIntent, LAUNCH_REQUEST);
 						((Launcher) plugin).callbackLaunched();
 					} catch (ActivityNotFoundException e) {
@@ -320,48 +134,6 @@ public class Launcher extends CordovaPlugin {
 					}
 				} else {
 					callbackContext.error("App not found for package name.");
-				}
-			}
-		});
-	}
-
-	private void launchIntent(final String uri, final Bundle extras, final int flags) {
-		final CordovaInterface mycordova = cordova;
-		final CordovaPlugin plugin = this;
-		cordova.getThreadPool().execute(new LauncherRunnable(this.callback) {
-			public void run() {
-				Intent intent = new Intent(Intent.ACTION_VIEW);
-				intent.setData(Uri.parse(uri));
-				if (flags != 0) {
-					intent.setFlags(flags);
-				}
-				try {
-					intent.putExtras(extras);
-					mycordova.startActivityForResult(plugin, intent, LAUNCH_REQUEST);
-					((Launcher) plugin).callbackLaunched();
-				} catch (ActivityNotFoundException e) {
-					Log.e(TAG, "Error: Activity for " + uri + " was not found.");
-					e.printStackTrace();
-					callbackContext.error("Activity not found for uri.");
-				}
-			}
-		});
-	}
-
-	private void launchAction(final String actionName, final Bundle extras) {
-		final CordovaInterface mycordova = cordova;
-		final CordovaPlugin plugin = this;
-		cordova.getThreadPool().execute(new LauncherRunnable(this.callback) {
-			public void run() {
-				Intent intent = new Intent(actionName);
-				try {
-					intent.putExtras(extras);
-					mycordova.startActivityForResult(plugin, intent, LAUNCH_REQUEST);
-					((Launcher) plugin).callbackLaunched();
-				} catch (ActivityNotFoundException e) {
-					Log.e(TAG, "Error: Activity for " + actionName + " was not found.");
-					e.printStackTrace();
-					callbackContext.error("Activity not found for action name.");
 				}
 			}
 		});
