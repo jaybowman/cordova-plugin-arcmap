@@ -8,12 +8,31 @@
 import Foundation
 import ArcGIS
 
-
 struct ArcLocation {
-    var address: String = ""
-    var longitude: Double = 0
-    var latitude: Double = 0
+    var name: String = ""
+    var gisLong: Double = 0
+    var gisLat: Double = 0
+    init?(list: NSDictionary){
+        guard let name = list["name"] as? String,
+              let long = list["gisLong"] as? Double,
+              let lat = list["gisLat"] as? Double
+        else {
+            return nil
+        }
+        
+        self.name = name
+        self.gisLong = long
+        self.gisLat = lat
+    }
+}
+struct ArcRoute {
+    var stops: [ArcLocation] = []
     var route: RouteType = RouteType.CAR
+    
+    init(withStops: [ArcLocation], travelType: RouteType){
+        stops = withStops
+        route = travelType
+    }
 }
 
 struct TestPoints {

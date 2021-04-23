@@ -10,7 +10,7 @@ import AVFoundation
 
 class NavigateRouteViewController: UIViewController  {
     private var mapLoadStatusObservable: NSKeyValueObservation?
-    private var inputParams: ArcLocation = ArcLocation()
+    private var inputParams: ArcRoute!
     @IBOutlet var startBtnLabel: UIButton!
     @IBOutlet var navTitle: UINavigationItem!
     @IBOutlet var directionLabel: UILabel!
@@ -30,7 +30,7 @@ class NavigateRouteViewController: UIViewController  {
     }
     
     // MARK: Instance properties
-       /// The route task to solve the route between stops, using the online routing service.
+       /// The route task to solve the route between stops, using the online routing service.     
        var routeTask = AGSRouteTask(url: .carRoutingService)
        /// The route result solved by the route task.
        var routeResult: AGSRouteResult!
@@ -64,7 +64,7 @@ class NavigateRouteViewController: UIViewController  {
        let speechSynthesizer = AVSpeechSynthesizer()
        
       
-    init (location: ArcLocation){
+    init (withRouteInfo: ArcRoute){
         super.init(nibName: nil, bundle: nil)
         licenseApplication()
         
@@ -73,8 +73,8 @@ class NavigateRouteViewController: UIViewController  {
      //  let documentURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
      //  AGSRequestConfiguration.global().debugLogFileURL = URL(fileURLWithPath: "debug.md", relativeTo: documentURL)
         
-        inputParams = location
-        destinationLocation = AGSPoint(x: location.longitude, y: location.latitude, spatialReference: .wgs84())
+        inputParams = withRouteInfo
+       // destinationLocation = AGSPoint(x: location.gisLong, y: location.gisLat, spatialReference: .wgs84())
         
         if inputParams.route == RouteType.GOLF_CART {
             routeTask = .init(url: .golfRoutingService)
@@ -195,11 +195,18 @@ class NavigateRouteViewController: UIViewController  {
     /// - Returns: An array of `AGSStop` objects.
     //MARK:Use this for simulation
     func makeStops() -> [AGSStop] {
+        var stops = Array<AGSStop>()
         let stop1 = AGSStop(point: startLocation)
         stop1.name = "current location"
-        let stop2 = AGSStop(point: destinationLocation!)
-        stop2.name = inputParams.address
-        return [stop1, stop2]
+        stops.append(stop1)
+        for stop in inputParams.stops {
+            let p = AGSPoint(x: stop.gisLong, y: stop.gisLat, spatialReference: AGSSpatialReference.wgs84())
+            let s = AGSStop(point: p)
+            s.name = stop.name
+            stops.append(s)
+        }
+        
+        return stops
     }
     
     /// Make a route tracker to provide navigation information.
@@ -426,7 +433,7 @@ class NavigateRouteViewController: UIViewController  {
         //(navigationItem.rightBarButtonItem as? SourceCodeBarButtonItem)?.filenames = //["NavigateRouteViewController"]
         // Avoid the overlap between the status label and the map content.
         
-        navTitle.title = inputParams.address
+        navTitle.title = inputParams.stops.last?.name
         let navigationBarAppearance = UINavigationBar.appearance();
         navigationBarAppearance.tintColor = UIColor.white
         //navigationBarAppearance.barTintColor = UIColor(red: 0, green: 73, blue: 44, alpha: 0)

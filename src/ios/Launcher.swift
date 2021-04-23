@@ -7,22 +7,24 @@
     )
 
     let parms = command.arguments[0] as! NSDictionary
-    let address = parms.value(forKey: "address") as! String
-
-    if address.count > 0 {
-        let lat = parms.value(forKey: "gisLat") as! Double
-        let long = parms.value(forKey: "gisLong") as! Double
-        let tt = parms.value(forKey: "travelType") as! Int
-        let  location = ArcLocation( address: address, longitude: long, latitude: lat, route: RouteType(rawValue: tt) ?? RouteType.CAR)
-        
-        let  mapCtrl = NavigateRouteViewController(location: location) // = MapViewController(destination: location)          
-        
-        mapCtrl.modalPresentationStyle = .fullScreen
-        self.viewController?.present(mapCtrl, animated: true, completion: nil)        
-      
-        pluginResult = CDVPluginResult( status: CDVCommandStatus_OK, messageAs: address    )
-        
+    let stops = parms.value(forKey: "stops") as! NSArray
+   
+    var points: [ArcLocation] = []
+    for elem in stops {
+        let s = elem as! NSDictionary
+        points.append( ArcLocation(list: s)!)
     }
+    // get distination address
+    let address = points.last?.name
+
+    let tt = parms.value(forKey: "travelType") as! Int
+
+    let routeInfo = ArcRoute(withStops: points, travelType: RouteType(rawValue: tt)!)
+    let  mapCtrl = NavigateRouteViewController(withRouteInfo: routeInfo)
+    mapCtrl.modalPresentationStyle = .fullScreen
+    self.viewController?.present(mapCtrl, animated: true, completion: nil)
+
+    pluginResult = CDVPluginResult( status: CDVCommandStatus_OK, messageAs: address )
 
     self.commandDelegate!.send(
       pluginResult,
