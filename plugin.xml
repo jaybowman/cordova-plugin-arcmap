@@ -64,14 +64,14 @@
         <source-file src="src/ios/NavigateRouteViewController.xib" />
         <source-file src="src/ios/DirectionsViewController.swift" />
         <source-file src="src/ios/DirectionsViewController.xib" />      
-        <podspec>
+        <!--podspec>
 			<config>
 				<source url="https://cdn.cocoapods.org/"/>
 			</config>
 			<pods use-frameworks="true">				
-                <pod name="ArcGIS-Runtime-SDK-iOS" spec="100.11" />
+                <pod name="ArcGIS-Runtime-SDK-iOS" spec="100.11.0" />
             </pods>
-        </podspec>
+        </podspec-->
     </platform>
 
     <!--hook type="after_prepare" src="scripts/after_prepare.js" /-->

@@ -88,7 +88,6 @@ class NavigateRouteViewController: UIViewController  {
     
     // MARK: Instance methods
     
-    
     func licenseApplication() {
         do {
             try AGSArcGISRuntimeEnvironment.setLicenseKey(.licenseKey)
@@ -182,11 +181,19 @@ class NavigateRouteViewController: UIViewController  {
         // Create a graphic for the start location.
         let startSymbol = AGSSimpleMarkerSymbol(style: .diamond, color: .green, size: 20)
         let startGraphic = AGSGraphic(geometry: startLocation, symbol: startSymbol)
-        // Create a graphic for the destination location.
-        let destinationSymbol = AGSSimpleMarkerSymbol(style: .X, color: .red, size: 20)
-        let destinationGraphic = AGSGraphic(geometry: destinationLocation, symbol: destinationSymbol)
+        // Create a graphic for the destination locations.
+        var pointGraphic: [AGSGraphic] = []
+        pointGraphic.append(startGraphic)
+        for stop in inputParams.stops {
+            let destinationSymbol = AGSSimpleMarkerSymbol(style: .X, color: .black, size: 15)
+            let p = AGSPoint(x: stop.gisLong, y: stop.gisLat, spatialReference: AGSSpatialReference.wgs84())
+            let destinationGraphic = AGSGraphic(geometry: p, symbol: destinationSymbol)
+            pointGraphic.append(destinationGraphic)
+        }
+        pointGraphic.append(routeAheadGraphic)
+        pointGraphic.append(routeTraveledGraphic)
         // Add graphics to the graphics overlay.
-        graphicsOverlay.graphics.addObjects(from: [startGraphic, destinationGraphic, routeAheadGraphic, routeTraveledGraphic])
+        graphicsOverlay.graphics.addObjects(from: pointGraphic)
         return graphicsOverlay
     }
     
@@ -270,7 +277,7 @@ class NavigateRouteViewController: UIViewController  {
         // Create the data source from a local GPX file.
         //let gpxDataSource = AGSGPXLocationDataSource(name: "TESTROUTE")
         //self.gpxDataSource = gpxDataSource
-        //let routeTrackerLocationDataSource = AGSRouteTrackerLocationDataSource(routeTracker: routeTracker, locationDataSource: gpxDataSource)
+       //let routeTrackerLocationDataSource = AGSRouteTrackerLocationDataSource(routeTracker: routeTracker, locationDataSource: gpxDataSource)
 
         //MARK: FOR PRODUCTION
         let routeTrackerLocationDataSource = AGSRouteTrackerLocationDataSource(routeTracker: routeTracker)
@@ -506,8 +513,17 @@ class NavigateRouteViewController: UIViewController  {
         else  if direction.contains("Go south") {
             imgName = "arrow.down"
         }
-        else  if direction.contains("sharp Left") {
+        else  if direction.contains("sharp left") {
             imgName = "arrow.left"
+        }
+        else  if direction.contains("Depart") {
+            imgName = "arrow.up"
+        }
+        else  if direction.contains("Go back east") {
+            imgName = "arrow.uturn.right"
+        }
+        else if direction.contains("Arrive at") {
+            imgName = "flag"
         }
         else if direction.contains("Finish") || direction.contains("Final Destination") {
             imgName = "flag"
