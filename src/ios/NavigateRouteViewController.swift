@@ -435,7 +435,7 @@ class NavigateRouteViewController: UIViewController  {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-               
+        startBtnLabel.isEnabled = false
         // Add the source code button item to the right of navigation bar.
         //(navigationItem.rightBarButtonItem as? SourceCodeBarButtonItem)?.filenames = //["NavigateRouteViewController"]
         // Avoid the overlap between the status label and the map content.
@@ -447,7 +447,9 @@ class NavigateRouteViewController: UIViewController  {
         navigationBarAppearance.titleTextAttributes = [NSAttributedString.Key.foregroundColor:UIColor.white]
         
         mapView.contentInset.top = CGFloat(directionLabel.numberOfLines) * directionLabel.font.lineHeight
-        
+        if traitCollection.userInterfaceStyle == .dark {
+            directionLabel.textColor = UIColor.white
+        }
         setupLocationDisplay()
         
         distanceLabel.text = "Distance"
