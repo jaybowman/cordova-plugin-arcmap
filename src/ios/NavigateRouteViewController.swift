@@ -165,6 +165,7 @@ class NavigateRouteViewController: UIViewController  {
             self.routeResult = routeResult
             showRoute()
             navigationBarButtonItem.isEnabled = true
+            startBtnLabel.isEnabled = true
         case .failure(let error):
             print(error)
             setStatus(message: "Failed to solve route.")
