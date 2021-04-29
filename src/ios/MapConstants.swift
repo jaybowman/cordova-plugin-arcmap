@@ -65,7 +65,7 @@ enum RouteType: Int {
 extension URL {
     static let myAppRoutingServiceAsync = URL(string: "https://utility.arcgis.com/usrsvcs/appservices/xEbX1CD0AIA0MxBV/rest/services/World/Route/GPServer")!
     static let worldRoutingService = URL(string: "https://arc7.thevillages.com/arcgis/rest/services/JWCAR_ROUTES_NOZ_TEST/NAServer/Route")!
-    static let carRoutingService = URL(string: "https://arc7.thevillages.com/arcgis/rest/services/CARROUTES_DEV/NAServer/Route")!
+    static let carRoutingService = URL(string: "https://arc7.thevillages.com/arcgis/rest/services/CARROUTES/NAServer/Route")!
     static let golfRoutingService = URL(string: "https://arc7.thevillages.com/arcgis/rest/services/GOLFCROUTE2/NAServer/Route")!
     static let villagesMapService = URL(string: "https://arc7.thevillages.com/arcgis/rest/services/PUBLICMAP26/MapServer")!
 }
