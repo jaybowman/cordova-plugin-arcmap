@@ -9,7 +9,7 @@
     <description>
         Cordova plugin for ArcGIS native map navigation.
     </description>
-    <author>Jay Bowman</author>
+    <author>Jay Bowman, Jeremy Winfree</author>
 	<license>MIT</license>
 
 	<engines>
@@ -44,7 +44,7 @@
     	<framework src='androidx.constraintlayout:constraintlayout:2.0.2'/>
     	<framework src='info.androidhive:fontawesome:0.0.5'/>
     	<framework src='com.google.android.material:material:1.2.1'/>
-        <framework src='scripts/android/build-extras.gradle' custom="true" type="gradleReference" />
+        <framework src='build-extras.gradle' custom="true" type="gradleReference" />
 		<lib-file src="src/android/maplib-1.0.aar" />
     </platform>
     
