@@ -278,7 +278,7 @@ class NavigateRouteViewController: UIViewController  {
         // Create the data source from a local GPX file.
         //let gpxDataSource = AGSGPXLocationDataSource(name: "TESTROUTE")
         //self.gpxDataSource = gpxDataSource
-       //let routeTrackerLocationDataSource = AGSRouteTrackerLocationDataSource(routeTracker: routeTracker, locationDataSource: gpxDataSource)
+        //let routeTrackerLocationDataSource = AGSRouteTrackerLocationDataSource(routeTracker: routeTracker, locationDataSource: gpxDataSource)
 
         //MARK: FOR PRODUCTION
         let routeTrackerLocationDataSource = AGSRouteTrackerLocationDataSource(routeTracker: routeTracker)
@@ -446,11 +446,12 @@ class NavigateRouteViewController: UIViewController  {
         navigationBarAppearance.tintColor = UIColor.white
         //navigationBarAppearance.barTintColor = UIColor(red: 0, green: 73, blue: 44, alpha: 0)
         navigationBarAppearance.titleTextAttributes = [NSAttributedString.Key.foregroundColor:UIColor.white]
-        
-        mapView.contentInset.top = CGFloat(directionLabel.numberOfLines) * directionLabel.font.lineHeight
         if traitCollection.userInterfaceStyle == .dark {
             directionLabel.textColor = UIColor.white
         }
+        
+        mapView.contentInset.top = CGFloat(directionLabel.numberOfLines) * directionLabel.font.lineHeight
+        
         setupLocationDisplay()
         
         distanceLabel.text = "Distance"
@@ -499,6 +500,12 @@ class NavigateRouteViewController: UIViewController  {
             imgName = "arrow.up.left"
         }
         else  if direction.contains("Bear right") {
+            imgName = "arrow.up.right"
+        }
+        else  if direction.contains("keep left") {
+            imgName = "arrow.up.left"
+        }
+        else  if direction.contains("keep right") {
             imgName = "arrow.up.right"
         }
         else  if direction.contains("Continue") {
@@ -562,8 +569,12 @@ extension NavigateRouteViewController: AGSRouteTrackerDelegate {
         switch status.destinationStatus {
         case .notReached, .approaching:
             let distanceRemaining = status.routeProgress.remainingDistance.displayText + " " + status.routeProgress.remainingDistance.displayTextUnits.abbreviation
-            let timeRemaining = timeFormatter.string(from: TimeInterval(status.routeProgress.remainingTime * 60))!
+            var timeRemaining = timeFormatter.string(from: TimeInterval(status.routeProgress.remainingTime * 60))!
             
+            if timeRemaining.starts(with: "0")
+            {
+                timeRemaining = "< 1 minute"
+            }
             distanceText = """
             \(distanceRemaining)
             """
