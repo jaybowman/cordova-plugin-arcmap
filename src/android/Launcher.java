@@ -40,6 +40,21 @@ public class Launcher extends CordovaPlugin {
 		}
 	}
 
+	public Bundle onSaveInstanceState() {
+		return null;
+	}
+	/**
+	 * Called when a plugin is the recipient of an Activity result after the
+	 * CordovaActivity has been destroyed. The Bundle will be the same as the one
+	 * the plugin returned in onSaveInstanceState()
+	 *
+	 * @param state             Bundle containing the state of the plugin
+	 * @param callbackContext   Replacement Context to return the plugin result to
+	 */
+	public void onRestoreStateForActivityResult(Bundle state, CallbackContext callbackContext) {
+		Log.d(TAG, "onRestoreStateForActivityResult: ");
+	}
+
 	@Override
 	public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
 		callback = callbackContext;
@@ -112,10 +127,11 @@ public class Launcher extends CordovaPlugin {
 		final CordovaInterface mycordova = cordova;
 		final CordovaPlugin plugin = this;
 		Log.i(TAG, "Trying to launch activity: " + packageName);
-		cordova.getThreadPool().execute(new LauncherRunnable(this.callback) {
+		
+		cordova.getActivity().runOnUiThread(new LauncherRunnable(this.callback) {
 			public void run() {
-				final PackageManager pm = plugin.webView.getContext().getPackageManager();
-				Intent  intent = pm.getLaunchIntentForPackage(packageName);
+				final PackageManager pm = cordova.getContext().getPackageManager(); // plugin.webView.getContext().getPackageManager();
+				//Intent  intent = pm.getLaunchIntentForPackage(packageName);
 				final Intent launchIntent =  new Intent(Intent.ACTION_VIEW);
 				launchIntent.setClassName(plugin.webView.getContext(), ActivityName);
 				ComponentName cn = launchIntent.resolveActivity(pm);
