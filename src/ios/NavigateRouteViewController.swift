@@ -353,6 +353,7 @@ class NavigateRouteViewController: UIViewController  {
             
         } else {
             navigationStarted = true
+            
             startBtnLabel.setTitle("Stop", for: UIControl.State.normal)
             startBtnLabel.backgroundColor = UIColor.red
             
@@ -456,6 +457,7 @@ class NavigateRouteViewController: UIViewController  {
         
         distanceLabel.text = "Distance"
         timeLabel.text = "Hours:Minutes"
+        UIApplication.shared.isIdleTimerDisabled = true;
                
     }
   
@@ -486,6 +488,7 @@ class NavigateRouteViewController: UIViewController  {
         if routeResult != nil {
             reset()
         }
+        UIApplication.shared.isIdleTimerDisabled = false;
     }
   
     func getDirectionImage(direction: String) -> UIImage {
