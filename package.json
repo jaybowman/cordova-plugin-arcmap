@@ -1,6 +1,6 @@
 {
   "name": "cordova-plugin-arcmap",
-  "version": "0.0.1",
+  "version": "1.0.3",
   "description": "Cordova plugin for arcgis map navigation", 
   "cordova": {
     "id": "cordova-plugin-arcmap",
