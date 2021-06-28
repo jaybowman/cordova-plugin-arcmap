@@ -64,8 +64,8 @@ enum RouteType: Int {
 
 extension URL {
     static let worldRoutingService = URL(string: "https://arc7.thevillages.com/arcgis/rest/services/JWCAR_ROUTES_NOZ_TEST/NAServer/Route")!
-    static let carRoutingService = URL(string: "https://arc7.thevillages.com/arcgis/rest/services/CARROUTES_DEV/NAServer/Route")!
-    static let golfRoutingService = URL(string: "https://arc7.thevillages.com/arcgis/rest/services/GOLFCROUTE2/NAServer/Route")!
+    static let carRoutingService = URL(string: "https://arc7.thevillages.com/arcgis/rest/services/CARROUTES_Z1/NAServer/Route")!
+    static let golfRoutingService = URL(string: "https://arc7.thevillages.com/arcgis/rest/services/GOLFCROUTEZ/NAServer/Route")!
     static let villagesMapService = URL(string: "https://arc7.thevillages.com/arcgis/rest/services/PUBLICMAP26/MapServer")!
 }
 /// Add title property to arcgis load atatus

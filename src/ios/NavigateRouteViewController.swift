@@ -187,7 +187,7 @@ class NavigateRouteViewController: UIViewController  {
         pointGraphic.append(startGraphic)
         for stop in inputParams.stops {
             let destinationSymbol = AGSSimpleMarkerSymbol(style: .X, color: .black, size: 15)
-            let p = AGSPoint(x: stop.gisLong, y: stop.gisLat, spatialReference: AGSSpatialReference.wgs84())
+            let p = AGSPoint(x: stop.gisLong, y: stop.gisLat, z: 100, spatialReference: AGSSpatialReference.wgs84())
             let destinationGraphic = AGSGraphic(geometry: p, symbol: destinationSymbol)
             pointGraphic.append(destinationGraphic)
         }
@@ -208,7 +208,7 @@ class NavigateRouteViewController: UIViewController  {
         stop1.name = "current location"
         stops.append(stop1)
         for stop in inputParams.stops {
-            let p = AGSPoint(x: stop.gisLong, y: stop.gisLat, spatialReference: AGSSpatialReference.wgs84())
+            let p = AGSPoint(x: stop.gisLong, y: stop.gisLat, z: 100, spatialReference: AGSSpatialReference.wgs84())
             let s = AGSStop(point: p)
             s.name = stop.name
             stops.append(s)
