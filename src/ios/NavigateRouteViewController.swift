@@ -43,7 +43,7 @@ class NavigateRouteViewController: UIViewController  {
        /// The initial location for the solved route.
        var initialLocation: AGSLocation!
        /// The graphic (with a dashed line symbol) to represent the route ahead.
-       let routeAheadGraphic = AGSGraphic(geometry: nil, symbol: AGSSimpleLineSymbol(style: .solid, color: .systemRed, width: 3))
+       let routeAheadGraphic = AGSGraphic(geometry: nil, symbol: AGSSimpleLineSymbol(style: .solid, color: .systemBlack, width: 3))
        /// The graphic to represent the route that's been traveled (initially empty).
        let routeTraveledGraphic = AGSGraphic(geometry: nil, symbol: AGSSimpleLineSymbol(style: .solid, color: .systemBlue, width: 3))
        /// Current location from mapview locationdisplay
