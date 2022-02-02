@@ -158,33 +158,40 @@ public class Launcher extends CordovaPlugin {
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent intent) {
 		super.onActivityResult(requestCode, resultCode, intent);
+
+		// Make sure this is a launch request
 		if (requestCode == LAUNCH_REQUEST) {
 			if (resultCode == Activity.RESULT_OK || resultCode == Activity.RESULT_CANCELED) {
+				// Create a new JSON object to store the result
 				JSONObject json = new JSONObject();
-				try {
-					json.put("isActivityDone", true);
-				} catch(JSONException ignored) {}
+				json.put("isActivityDone", true);
+
+				// Make sure we have an intent
 				if (intent != null) {
+					// Get the intent extras (if available)
 					Bundle extras = intent.getExtras();
 					if (extras != null) {
+						// Create a new JSON object to store the extras
 						JSONObject jsonExtras = new JSONObject();
-						Set<String> keys = extras.keySet();
-						for (String key : keys) {
-							try {
-								jsonExtras.put(key, wrap(extras.get(key)));
-							} catch(JSONException ignored) {}
+
+						// Loop through the extras keys so we can add them to the JSON object
+						for (String key : extras.keySet()) {
+							jsonExtras.put(key, wrap(extras.get(key)));
 						}
-						try {
-							json.put("extras", jsonExtras);
-						} catch(JSONException ignored) {}
+
+						// Add the extras to the result
+						json.put("extras", jsonExtras);
 					}
 
-					try {
-						json.put("data", intent.getDataString());
-					} catch(JSONException ignored) {}
+					// Add the intent data string
+					String dataString = intent.getDataString();
+					json.put("data", dataString != null ? dataString : "");
 				}
+
+				// Success
 				callback.success(json);
 			} else {
+				// Error
 				callback.error("Activity failed (" + resultCode + ").");
 			}
 		}
@@ -244,6 +251,6 @@ public class Launcher extends CordovaPlugin {
 			}
 		} catch (Exception ignored) {
 		}
-		return null;
+		return JSONObject.NULL;
 	}
 }
